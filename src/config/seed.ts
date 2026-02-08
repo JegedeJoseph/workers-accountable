@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 import config from './index';
 import { User } from '../models';
 import { UserRole } from '../types/enums';
@@ -6,7 +7,7 @@ import { EXECUTIVES_SEED_DATA } from './executives.seed';
 
 /**
  * Seed executives into the database
- * Run this script once to populate executive accounts
+ * Uses upsert to update existing records or create new ones
  */
 const seedExecutives = async (): Promise<void> => {
   try {
@@ -14,47 +15,61 @@ const seedExecutives = async (): Promise<void> => {
     await mongoose.connect(config.mongodbUri);
     console.log('✅ Connected to MongoDB');
 
-    console.log('\n🌱 Starting executive seeding...\n');
+    console.log('\n🌱 Starting executive seeding (upsert mode)...\n');
 
     let created = 0;
-    let skipped = 0;
+    let updated = 0;
 
     for (const execData of EXECUTIVES_SEED_DATA) {
       // Check if executive already exists
-      const existingExec = await User.findOne({ email: execData.email });
-
-      if (existingExec) {
-        console.log(`⏭️  Skipping ${execData.fullName} (${execData.excoPosition}) - already exists`);
-        skipped++;
-        continue;
-      }
-
-      // Create executive user
-      const executive = new User({
-        fullName: execData.fullName,
-        email: execData.email,
-        phoneNumber: execData.phoneNumber,
-        gender: execData.gender,
-        password: execData.defaultPassword, // Will be hashed by pre-save hook
-        role: UserRole.EXECUTIVE,
-        excoPosition: execData.excoPosition,
-        isActive: true,
-        mustChangePassword: true, // Force password change on first login
+      const existingExec = await User.findOne({ 
+        $or: [
+          { email: execData.email },
+          { excoPosition: execData.excoPosition }
+        ]
       });
 
-      await executive.save();
-      console.log(`✅ Created ${execData.fullName} (${execData.excoPosition})`);
-      created++;
+      if (existingExec) {
+        // Update existing executive (without changing password if already set)
+        await User.findByIdAndUpdate(existingExec._id, {
+          fullName: execData.fullName,
+          email: execData.email,
+          phoneNumber: execData.phoneNumber,
+          gender: execData.gender,
+          excoPosition: execData.excoPosition,
+          role: UserRole.EXECUTIVE,
+          isActive: true,
+        });
+        console.log(`🔄 Updated ${execData.fullName} (${execData.excoPosition})`);
+        updated++;
+      } else {
+        // Create new executive user
+        const hashedPassword = await bcrypt.hash(execData.defaultPassword, 12);
+        
+        await User.create({
+          fullName: execData.fullName,
+          email: execData.email,
+          phoneNumber: execData.phoneNumber,
+          gender: execData.gender,
+          password: hashedPassword,
+          role: UserRole.EXECUTIVE,
+          excoPosition: execData.excoPosition,
+          isActive: true,
+          mustChangePassword: true, // Force password change on first login
+        });
+        console.log(`✅ Created ${execData.fullName} (${execData.excoPosition})`);
+        created++;
+      }
     }
 
     console.log('\n' + '='.repeat(50));
     console.log('📊 Seeding Summary:');
     console.log(`   ✅ Created: ${created}`);
-    console.log(`   ⏭️  Skipped: ${skipped}`);
+    console.log(`   🔄 Updated: ${updated}`);
     console.log(`   📋 Total Executives: ${EXECUTIVES_SEED_DATA.length}`);
     console.log('='.repeat(50));
 
-    console.log('\n🔐 Default Login Credentials:');
+    console.log('\n🔐 Default Login Credentials (for new accounts):');
     console.log('   Password: AUChapel@2026');
     console.log('   ⚠️  Executives should change password on first login!\n');
 
