@@ -34,7 +34,7 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   },
   {
-    fullName: 'Assistant General Coordinator 1',
+    fullName: 'Bro Emmanuel Ajayi',
     email: 'agc1@auchapel.org',
     phoneNumber: '+234 800 000 0002',
     gender: Gender.MALE,
@@ -42,7 +42,7 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   },
   {
-    fullName: 'Assistant General Coordinator 2',
+    fullName: 'Bro Jerry Austin',
     email: 'agc2@auchapel.org',
     phoneNumber: '+234 800 000 0003',
     gender: Gender.MALE,
@@ -50,7 +50,7 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   },
   {
-    fullName: 'Assistant General Coordinator 3',
+    fullName: 'Bro. Oluwapelumi Ajayi',
     email: 'agc3@auchapel.org',
     phoneNumber: '+234 800 000 0004',
     gender: Gender.MALE,
@@ -58,7 +58,7 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   },
   {
-    fullName: 'Sis Mary Ayemhoba',
+    fullName: 'Sis. Mary Ayemhoba',
     email: 'swc@auchapel.org',
     phoneNumber: '+234 800 000 0005',
     gender: Gender.FEMALE,
@@ -66,7 +66,7 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   },
   {
-    fullName: 'Assistant Sister Welfare Coordinator 1',
+    fullName: 'Sis. Daniella Awurumibe',
     email: 'aswc1@auchapel.org',
     phoneNumber: '+234 800 000 0006',
     gender: Gender.FEMALE,
@@ -74,7 +74,7 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   },
   {
-    fullName: 'Assistant Sister Welfare Coordinator 2',
+    fullName: 'Sis. Priscilla Adeyemi',
     email: 'aswc2@auchapel.org',
     phoneNumber: '+234 800 000 0007',
     gender: Gender.FEMALE,
@@ -82,11 +82,54 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   },
   {
-    fullName: 'Assistant Sister Welfare Coordinator 3',
+    fullName: 'Sis. Obayemi Eunice',
     email: 'aswc3@auchapel.org',
     phoneNumber: '+234 800 000 0008',
     gender: Gender.FEMALE,
     excoPosition: ExcoPosition.ASSISTANT_SISTER_WELFARE_COORDINATOR_3,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  
+  },
+  {
+    fullName: 'Sis. Toluwani Florence',
+    email: 'fc@auchapel.org',
+    phoneNumber: '+234 800 000 0008',
+    gender: Gender.FEMALE,
+    excoPosition: ExcoPosition.FINANCIAL_COORDINATOR,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  
+  },
+  {
+    fullName: 'Bro. Jeph Evans',
+    email: 'mc@auchapel.org',
+    phoneNumber: '+234 856 000 0004',
+    gender: Gender.MALE,
+    excoPosition: ExcoPosition.MAINTENANCE_COORDINATOR,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  },
+  {
+    fullName: 'Bro. James Abah',
+    email: 'pc@auchapel.org',
+    phoneNumber: '+234 856 000 0004',
+    gender: Gender.MALE,
+    excoPosition: ExcoPosition.PRAYER_COORDINATOR,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  },
+  {
+    fullName: 'Sis. Petra Adediran',
+    email: 'ac@auchapel.org',
+    phoneNumber: '+234 800 000 0008',
+    gender: Gender.FEMALE,
+    excoPosition: ExcoPosition.ACADEMIC_COORDINATOR,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  
+  },
+  {
+    fullName: 'Bro. Ebong Samuel',
+    email: 'ec@auchapel.org',
+    phoneNumber: '+234 856 000 0004',
+    gender: Gender.MALE,
+    excoPosition: ExcoPosition.EVANGELISM_COORDINATOR,
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   },
 ];
