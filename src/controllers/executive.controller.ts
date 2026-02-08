@@ -6,33 +6,33 @@ import { IAuthenticatedRequest } from '../types';
 import { UserRole } from '../types/enums';
 
 /**
+ * Verify user is an executive (standalone function)
+ */
+function verifyExecutive(req: IAuthenticatedRequest): void {
+  if (!req.user?.userId) {
+    throw ApiError.unauthorized('User not authenticated');
+  }
+  if (req.user.role !== UserRole.EXECUTIVE) {
+    throw ApiError.forbidden('Only executives can access this resource');
+  }
+}
+
+/**
  * Executive Controller
  * Handles HTTP requests for executive dashboard and worker tracking
  */
 class ExecutiveController {
   /**
-   * Verify user is an executive
-   */
-  private verifyExecutive(req: IAuthenticatedRequest): void {
-    if (!req.user?.userId) {
-      throw ApiError.unauthorized('User not authenticated');
-    }
-    if (req.user.role !== UserRole.EXECUTIVE) {
-      throw ApiError.forbidden('Only executives can access this resource');
-    }
-  }
-
-  /**
    * GET /api/executive/dashboard
    * Get executive dashboard summary
    */
-  async getDashboard(
+  getDashboard = async (
     req: IAuthenticatedRequest,
     res: Response,
     next: NextFunction
-  ): Promise<void> {
+  ): Promise<void> => {
     try {
-      this.verifyExecutive(req);
+      verifyExecutive(req);
 
       const weekStartDate = req.query.weekStartDate
         ? new Date(req.query.weekStartDate as string)
@@ -53,13 +53,13 @@ class ExecutiveController {
    * GET /api/executive/workers
    * Get all workers assigned to the executive
    */
-  async getAssignedWorkers(
+  getAssignedWorkers = async (
     req: IAuthenticatedRequest,
     res: Response,
     next: NextFunction
-  ): Promise<void> {
+  ): Promise<void> => {
     try {
-      this.verifyExecutive(req);
+      verifyExecutive(req);
 
       const workers = await executiveService.getAssignedWorkers(req.user!.userId);
 
@@ -77,13 +77,13 @@ class ExecutiveController {
    * GET /api/executive/workers/progress
    * Get weekly discipline progress for all assigned workers
    */
-  async getWorkersProgress(
+  getWorkersProgress = async (
     req: IAuthenticatedRequest,
     res: Response,
     next: NextFunction
-  ): Promise<void> {
+  ): Promise<void> => {
     try {
-      this.verifyExecutive(req);
+      verifyExecutive(req);
 
       const weekStartDate = req.query.weekStartDate
         ? new Date(req.query.weekStartDate as string)
@@ -108,13 +108,13 @@ class ExecutiveController {
    * GET /api/executive/workers/:workerId
    * Get a specific worker's discipline details
    */
-  async getWorkerDetails(
+  getWorkerDetails = async (
     req: IAuthenticatedRequest,
     res: Response,
     next: NextFunction
-  ): Promise<void> {
+  ): Promise<void> => {
     try {
-      this.verifyExecutive(req);
+      verifyExecutive(req);
 
       const { workerId } = req.params;
       if (!workerId) {
@@ -141,13 +141,13 @@ class ExecutiveController {
    * GET /api/executive/workers/:workerId/history
    * Get a specific worker's discipline history (multiple weeks)
    */
-  async getWorkerHistory(
+  getWorkerHistory = async (
     req: IAuthenticatedRequest,
     res: Response,
     next: NextFunction
-  ): Promise<void> {
+  ): Promise<void> => {
     try {
-      this.verifyExecutive(req);
+      verifyExecutive(req);
 
       const { workerId } = req.params;
       if (!workerId) {
@@ -176,13 +176,13 @@ class ExecutiveController {
    * GET /api/executive/reflections
    * Get all reflections from assigned workers for the current week
    */
-  async getWorkersReflections(
+  getWorkersReflections = async (
     req: IAuthenticatedRequest,
     res: Response,
     next: NextFunction
-  ): Promise<void> {
+  ): Promise<void> => {
     try {
-      this.verifyExecutive(req);
+      verifyExecutive(req);
 
       const weekStartDate = req.query.weekStartDate
         ? new Date(req.query.weekStartDate as string)
