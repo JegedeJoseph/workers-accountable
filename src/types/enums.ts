@@ -63,6 +63,25 @@ export enum TokenType {
   REFRESH = 'refresh',
 }
 
+// Spiritual Disciplines for Weekly Tracker
+export enum SpiritualDiscipline {
+  PRAYER = 'prayer',
+  BIBLE_STUDY = 'bible_study',
+  FASTING = 'fasting',
+  EVANGELISM = 'evangelism',
+}
+
+// Days of the week
+export enum DayOfWeek {
+  MONDAY = 'monday',
+  TUESDAY = 'tuesday',
+  WEDNESDAY = 'wednesday',
+  THURSDAY = 'thursday',
+  FRIDAY = 'friday',
+  SATURDAY = 'saturday',
+  SUNDAY = 'sunday',
+}
+
 // Export arrays for validation and dropdown population
 export const UserRoles = Object.values(UserRole);
 export const Genders = Object.values(Gender);
@@ -71,6 +90,20 @@ export const FemaleHostels = Object.values(FemaleHostel);
 export const AllHostels = [...MaleHostels, ...FemaleHostels];
 export const WorkforceDepartments = Object.values(WorkforceDepartment);
 export const ExcoPositions = Object.values(ExcoPosition);
+export const SpiritualDisciplines = Object.values(SpiritualDiscipline);
+export const DaysOfWeek = Object.values(DayOfWeek);
+
+// Disciplines that are required daily (7 days/week)
+export const DailyDisciplines = [SpiritualDiscipline.PRAYER, SpiritualDiscipline.BIBLE_STUDY];
+
+// Disciplines that are required once per week
+export const WeeklyDisciplines = [SpiritualDiscipline.FASTING, SpiritualDiscipline.EVANGELISM];
+
+// Default required day for weekly disciplines
+export const WeeklyDisciplineDefaults = {
+  [SpiritualDiscipline.FASTING]: DayOfWeek.WEDNESDAY,
+  [SpiritualDiscipline.EVANGELISM]: DayOfWeek.SUNDAY,
+};
 
 /**
  * Helper to get hostels by gender

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import authRoutes from './auth.routes';
 import userRoutes from './user.routes';
 import enumRoutes from './enum.routes';
+import disciplineRoutes from './discipline.routes';
 
 const router = Router();
 
@@ -25,5 +26,6 @@ router.get('/health', (req, res) => {
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/enums', enumRoutes);
+router.use('/disciplines', disciplineRoutes);
 
 export default router;
