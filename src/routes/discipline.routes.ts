@@ -54,4 +54,19 @@ router.get('/dashboard', authMiddleware, disciplineController.getDashboard);
  */
 router.get('/previous-weeks', authMiddleware, disciplineController.getPreviousWeeks);
 
+/**
+ * @route   POST /api/disciplines/reflection
+ * @desc    Save weekly reflection / remarks
+ * @access  Private
+ * @body    { reflection: "string" }
+ */
+router.post('/reflection', authMiddleware, disciplineController.saveReflection);
+
+/**
+ * @route   GET /api/disciplines/reflection
+ * @desc    Get weekly reflection for current week
+ * @access  Private
+ */
+router.get('/reflection', authMiddleware, disciplineController.getReflection);
+
 export default router;

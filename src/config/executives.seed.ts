@@ -26,7 +26,7 @@ export const DEFAULT_EXECUTIVE_PASSWORD = 'AUChapel@2026';
  */
 export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
   {
-    fullName: 'General Coordinator',
+    fullName: 'Bro Kehinde Jeremiah',
     email: 'gc@auchapel.org',
     phoneNumber: '+234 800 000 0001',
     gender: Gender.MALE,
@@ -58,7 +58,7 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   },
   {
-    fullName: 'Sister Welfare Coordinator',
+    fullName: 'Sis Mary Ayemhoba',
     email: 'swc@auchapel.org',
     phoneNumber: '+234 800 000 0005',
     gender: Gender.FEMALE,

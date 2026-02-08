@@ -8,7 +8,7 @@ import {
   WeeklyDisciplines,
 } from '../types/enums';
 import { ApiError } from '../utils/errors';
-import { SaveProgressInput } from '../validations/discipline.validation';
+import { SaveProgressInput, SaveReflectionInput } from '../validations/discipline.validation';
 
 /**
  * Dashboard statistics interface
@@ -337,6 +337,63 @@ class DisciplineService {
       completionRate: rate,
       currentStreak: streak,
       weeklyProgress,
+    };
+  }
+
+  /**
+   * Save weekly reflection / remarks
+   */
+  async saveReflection(
+    userId: string,
+    data: SaveReflectionInput
+  ): Promise<{ weeklyDiscipline: IWeeklyDiscipline; message: string }> {
+    const weekStartDate = data.weekStartDate
+      ? WeeklyDiscipline.getWeekStartDate(new Date(data.weekStartDate))
+      : WeeklyDiscipline.getWeekStartDate();
+    const weekEndDate = WeeklyDiscipline.getWeekEndDate(weekStartDate);
+
+    // Find or create the week record
+    let weeklyDiscipline = await WeeklyDiscipline.findOne({
+      userId: new Types.ObjectId(userId),
+      weekStartDate,
+    });
+
+    if (!weeklyDiscipline) {
+      weeklyDiscipline = new WeeklyDiscipline({
+        userId: new Types.ObjectId(userId),
+        weekStartDate,
+        weekEndDate,
+      });
+    }
+
+    // Update reflection
+    weeklyDiscipline.reflection = data.reflection;
+    weeklyDiscipline.reflectionSubmittedAt = new Date();
+
+    await weeklyDiscipline.save();
+
+    return {
+      weeklyDiscipline,
+      message: 'Reflection saved successfully',
+    };
+  }
+
+  /**
+   * Get reflection for a specific week
+   */
+  async getReflection(userId: string, weekStartDate?: Date): Promise<{ reflection: string | null; submittedAt: Date | null }> {
+    const startDate = weekStartDate
+      ? WeeklyDiscipline.getWeekStartDate(weekStartDate)
+      : WeeklyDiscipline.getWeekStartDate();
+
+    const weeklyDiscipline = await WeeklyDiscipline.findOne({
+      userId: new Types.ObjectId(userId),
+      weekStartDate: startDate,
+    });
+
+    return {
+      reflection: weeklyDiscipline?.reflection || null,
+      submittedAt: weeklyDiscipline?.reflectionSubmittedAt || null,
     };
   }
 }

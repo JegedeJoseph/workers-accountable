@@ -6,6 +6,7 @@ import { IAuthenticatedRequest } from '../types';
 import {
   saveProgressSchema,
   getPreviousWeeksSchema,
+  saveReflectionSchema,
 } from '../validations/discipline.validation';
 import { ZodError } from 'zod';
 
@@ -142,6 +143,61 @@ class DisciplineController {
         { weeks, count: weeks.length },
         'Previous weeks retrieved successfully'
       );
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * POST /api/disciplines/reflection
+   * Save weekly reflection / remarks
+   */
+  async saveReflection(
+    req: IAuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      if (!req.user?.userId) {
+        throw ApiError.unauthorized('User not authenticated');
+      }
+
+      // Validate request body
+      const validationResult = saveReflectionSchema.safeParse(req.body);
+
+      if (!validationResult.success) {
+        const formattedErrors = formatZodError(validationResult.error);
+        throw new ValidationError('Validation failed', formattedErrors);
+      }
+
+      const result = await disciplineService.saveReflection(
+        req.user.userId,
+        validationResult.data
+      );
+
+      ApiResponse.success(res, result, 'Reflection saved successfully');
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * GET /api/disciplines/reflection
+   * Get weekly reflection for current week
+   */
+  async getReflection(
+    req: IAuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      if (!req.user?.userId) {
+        throw ApiError.unauthorized('User not authenticated');
+      }
+
+      const result = await disciplineService.getReflection(req.user.userId);
+
+      ApiResponse.success(res, result, 'Reflection retrieved successfully');
     } catch (error) {
       next(error);
     }

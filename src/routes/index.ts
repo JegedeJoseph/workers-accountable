@@ -3,6 +3,7 @@ import authRoutes from './auth.routes';
 import userRoutes from './user.routes';
 import enumRoutes from './enum.routes';
 import disciplineRoutes from './discipline.routes';
+import executiveRoutes from './executive.routes';
 
 const router = Router();
 
@@ -27,5 +28,6 @@ router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/enums', enumRoutes);
 router.use('/disciplines', disciplineRoutes);
+router.use('/executive', executiveRoutes);
 
 export default router;

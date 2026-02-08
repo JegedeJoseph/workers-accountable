@@ -48,7 +48,24 @@ export const getWeekSchema = z.object({
   weekStartDate: z.string().datetime('Invalid date format. Use ISO 8601 format.'),
 });
 
+/**
+ * Schema for saving weekly reflection / remarks
+ */
+export const saveReflectionSchema = z.object({
+  reflection: z
+    .string()
+    .min(1, 'Reflection cannot be empty')
+    .max(2000, 'Reflection cannot exceed 2000 characters')
+    .trim(),
+  weekStartDate: z
+    .string()
+    .datetime()
+    .optional()
+    .describe('ISO date string for the week start (Monday). Defaults to current week.'),
+});
+
 // Type exports
 export type SaveProgressInput = z.infer<typeof saveProgressSchema>;
 export type GetPreviousWeeksInput = z.infer<typeof getPreviousWeeksSchema>;
 export type GetWeekInput = z.infer<typeof getWeekSchema>;
+export type SaveReflectionInput = z.infer<typeof saveReflectionSchema>;

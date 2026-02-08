@@ -23,6 +23,8 @@ export interface IWeeklyDiscipline extends Document {
   weekStartDate: Date; // Monday of the week
   weekEndDate: Date; // Sunday of the week
   disciplines: IDisciplineProgress[];
+  reflection?: string; // Personal reflections / Prayer requests
+  reflectionSubmittedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -99,6 +101,14 @@ const WeeklyDisciplineSchema = new Schema<IWeeklyDiscipline>(
       required: true,
     },
     disciplines: [DisciplineProgressSchema],
+    reflection: {
+      type: String,
+      maxlength: 2000,
+      trim: true,
+    },
+    reflectionSubmittedAt: {
+      type: Date,
+    },
   },
   {
     timestamps: true,
