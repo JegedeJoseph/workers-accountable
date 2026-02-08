@@ -355,6 +355,7 @@ class ExecutiveService {
       userId: { $in: workerIds },
       weekStartDate: startDate,
       reflection: { $exists: true, $nin: [null, ''] },
+      reflectionSubmittedAt: { $exists: true, $ne: null },
     });
 
     // Create worker map for quick lookup
@@ -365,7 +366,7 @@ class ExecutiveService {
 
     // Build results
     const reflections = records
-      .filter((r) => r.reflection)
+      .filter((r) => r.reflection && r.reflectionSubmittedAt)
       .map((record) => {
         const worker = workerMap.get(record.userId.toString());
         return {
@@ -377,7 +378,11 @@ class ExecutiveService {
           submittedAt: record.reflectionSubmittedAt!,
         };
       })
-      .sort((a, b) => b.submittedAt.getTime() - a.submittedAt.getTime());
+      .sort((a, b) => {
+        const timeA = a.submittedAt?.getTime() || 0;
+        const timeB = b.submittedAt?.getTime() || 0;
+        return timeB - timeA;
+      });
 
     return reflections;
   }
