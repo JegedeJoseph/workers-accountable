@@ -23,9 +23,10 @@ export enum MaleHostel {
 
 // Female Hostels (Anchor University)
 export enum FemaleHostel {
-  PATIENCE_HOSTEL = 'deborah_hostel',
-  PURITY_HOSTEL = 'esther_hostel',
-  PECULIAR_HOSTEL = 'ruth_hostel',
+  PATIENCE_HOSTEL = 'patience_hostel',
+  PURITY_HOSTEL = 'purity_hostel',
+  PECULIAR_HOSTEL = 'peculiar_hostel',
+  GUEST_HOUSE = 'guest_house',
 }
 
 // Workforce Departments
@@ -46,10 +47,14 @@ export enum WorkforceDepartment {
 
 // Executive Positions
 export enum ExcoPosition {
-  PRESIDENT = 'president',
-  VICE_PRESIDENT = 'vice_president',
-  GENERAL_SECRETARY = 'general_secretary',
-  ASSISTANT_GENERAL_SECRETARY = 'assistant_general_secretary',
+  GENERAL_COORDINATOR = 'GC',
+  ASSISTANT_GENERAL_COORDINATOR_1 = 'AGC-1',
+  ASSISTANT_GENERAL_COORDINATOR_2 = 'AGC-2',
+  ASSISTANT_GENERAL_COORDINATOR_3 = 'AGC-3',
+  SISTER_WELFARE_COORDINATOR = 'SWC',
+  ASSISTANT_SISTER_WELFARE_COORDINATOR_1 = 'ASWC-1',
+ ASSISTANT_SISTER_WELFARE_COORDINATOR_2 = 'ASWC-2',
+ ASSISTANT_SISTER_WELFARE_COORDINATOR_3 = 'ASWC-3',
   FINANCIAL_SECRETARY = 'financial_secretary',
   TREASURER = 'treasurer',
   WELFARE_DIRECTOR = 'welfare_director',

@@ -4,11 +4,11 @@
   "description": "Backend API for AU Chapel Workers Management System",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "tsc",
+    "dev": "npx ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "npx tsc",
     "start": "node dist/server.js",
     "postinstall": "npm run build",
-    "seed": "ts-node src/config/seed.ts",
+    "seed": "npm run build && node dist/config/seed.js",
     "seed:prod": "node dist/config/seed.js",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix"
