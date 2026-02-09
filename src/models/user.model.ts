@@ -160,7 +160,6 @@ const userSchema = new Schema<IUser>(
 );
 
 // Indexes for better query performance
-userSchema.index({ email: 1 });
 userSchema.index({ role: 1 });
 userSchema.index({ workforceDepartment: 1 });
 userSchema.index({ assignedExecutive: 1 });

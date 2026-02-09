@@ -61,7 +61,7 @@ export enum ExcoPosition {
   ACADEMIC_DIRECTOR = 'Academic Director',
   EVANGELISM_COORDINATOR_MALE = 'Evangelism Coord Male',
   EVANGELISM_COORDINATOR_FEMALE = 'Evangelism Coord Female',
-  SECRETARIAT_COORDINATOR= 'Secretariat CoordC',
+  SECRETARIAT_COORDINATOR= 'Secretariat Coord',
   LIBRARY_COORDINATOR = 'Library Coord',
   HEAD_USHER_MALE = 'Head Usher Male',
   HEAD_USHER_FEMALE = 'Head Usher Female',
