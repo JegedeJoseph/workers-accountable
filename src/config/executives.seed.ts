@@ -38,7 +38,7 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     email: 'agc1@auchapel.org',
     phoneNumber: '+234 800 000 0002',
     gender: Gender.MALE,
-    excoPosition: ExcoPosition.ASSISTANT_GENERAL_COORDINATOR_1,
+    excoPosition: ExcoPosition.ASSISTANT_GENERAL_COORDINATOR_FOUNDATION_SCHOOL,
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   },
   {
@@ -46,7 +46,7 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     email: 'agc2@auchapel.org',
     phoneNumber: '+234 800 000 0003',
     gender: Gender.MALE,
-    excoPosition: ExcoPosition.ASSISTANT_GENERAL_COORDINATOR_2,
+    excoPosition: ExcoPosition.ASSISTANT_GENERAL_COORDINATOR_HALL_3,
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   },
   {
@@ -54,7 +54,7 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     email: 'agc3@auchapel.org',
     phoneNumber: '+234 800 000 0004',
     gender: Gender.MALE,
-    excoPosition: ExcoPosition.ASSISTANT_GENERAL_COORDINATOR_3,
+    excoPosition: ExcoPosition.ASSISTANT_GENERAL_COORDINATOR_HALL_2,
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   },
   {
@@ -70,7 +70,7 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     email: 'aswc1@auchapel.org',
     phoneNumber: '+234 800 000 0006',
     gender: Gender.FEMALE,
-    excoPosition: ExcoPosition.ASSISTANT_SISTER_WELFARE_COORDINATOR_1,
+    excoPosition: ExcoPosition.ASSISTANT_SISTER_WELFARE_COORDINATOR_FOUNDATION_SCHOOL,
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   },
   {
@@ -78,7 +78,7 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     email: 'aswc2@auchapel.org',
     phoneNumber: '+234 800 000 0007',
     gender: Gender.FEMALE,
-    excoPosition: ExcoPosition.ASSISTANT_SISTER_WELFARE_COORDINATOR_2,
+    excoPosition: ExcoPosition.ASSISTANT_SISTER_WELFARE_COORDINATOR_HALL_3,
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   },
   {
@@ -86,7 +86,7 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     email: 'aswc3@auchapel.org',
     phoneNumber: '+234 800 000 0008',
     gender: Gender.FEMALE,
-    excoPosition: ExcoPosition.ASSISTANT_SISTER_WELFARE_COORDINATOR_3,
+    excoPosition: ExcoPosition.ASSISTANT_SISTER_WELFARE_COORDINATOR_HALL_2,
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   
   },
@@ -126,11 +126,55 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
   },
   {
     fullName: 'Bro. Ebong Samuel',
-    email: 'ec@auchapel.org',
+    email: 'ec_male@auchapel.org',
     phoneNumber: '+234 856 000 0004',
     gender: Gender.MALE,
-    excoPosition: ExcoPosition.EVANGELISM_COORDINATOR,
+    excoPosition: ExcoPosition.EVANGELISM_COORDINATOR_MALE,
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  },
+  {
+    fullName: 'Sis. Kingsley Mercy',
+    email: 'ec_female@auchapel.org',
+    phoneNumber: '+234 800 000 0008',
+    gender: Gender.FEMALE,
+    excoPosition: ExcoPosition.EVANGELISM_COORDINATOR_FEMALE,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  
+  },
+  {
+    fullName: 'Sis. Olugbodi Precious',
+    email: 'sc@auchapel.org',
+    phoneNumber: '+234 800 000 0008',
+    gender: Gender.FEMALE,
+    excoPosition: ExcoPosition.SECRETARIAT_COORDINATOR,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  
+  },
+  {
+    fullName: 'Sis. Eze Eunice',
+    email: 'lc@auchapel.org',
+    phoneNumber: '+234 800 000 2308',
+    gender: Gender.FEMALE,
+    excoPosition: ExcoPosition.LIBRARY_COORDINATOR,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  
+  },
+  {
+    fullName: 'Bro. Jehoshaphat Ibenye',
+    email: 'hu_m@auchapel.org',
+    phoneNumber: '+234 856 460 0004',
+    gender: Gender.MALE,
+    excoPosition: ExcoPosition.HEAD_USHER_MALE,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  },
+  {
+    fullName: 'Sis. Ojo Success',
+    email: 'hu_f@auchapel.org',
+    phoneNumber: '+234 800 000 0308',
+    gender: Gender.FEMALE,
+    excoPosition: ExcoPosition.HEAD_USHER_FEMALE,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  
   },
 ];
 
