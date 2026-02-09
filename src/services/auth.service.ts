@@ -175,9 +175,8 @@ class AuthService {
     // Generate new tokens
     const tokens = this.generateTokens(user);
 
-    // Update refresh token in database
-    user.refreshToken = tokens.refreshToken;
-    await user.save();
+    // Update refresh token in database (skip validation to avoid issues with stale references)
+    await User.findByIdAndUpdate(user._id, { refreshToken: tokens.refreshToken });
 
     // Populate assigned executive for workers
     let userResponse: Record<string, unknown>;
