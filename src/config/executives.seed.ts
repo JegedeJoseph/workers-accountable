@@ -120,7 +120,7 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     email: 'ac@auchapel.org',
     phoneNumber: '+234 800 000 0008',
     gender: Gender.FEMALE,
-    excoPosition: ExcoPosition.ACADEMIC_COORDINATOR,
+    excoPosition: ExcoPosition.ACADEMIC_DIRECTOR,
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   
   },
