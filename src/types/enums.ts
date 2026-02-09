@@ -55,6 +55,8 @@ export enum ExcoPosition {
   ASSISTANT_SISTER_WELFARE_COORDINATOR_FOUNDATION_SCHOOL = 'ASWC-FOUNDATION_SCHOOL',
   ASSISTANT_SISTER_WELFARE_COORDINATOR_HALL_3 = 'ASWC-HALL-3',
   ASSISTANT_SISTER_WELFARE_COORDINATOR_HALL_2 = 'ASWC-HALL-2',
+  CHOIR_MASTER = 'Choir Master',
+  CHOIR_MISTRESS = 'Choir Mistress',
   FINANCIAL_COORDINATOR = 'Financial Coordinator',
   MAINTENANCE_COORDINATOR = 'Maintenance Coordinator',
   PRAYER_COORDINATOR = 'Prayer Coordinator',
@@ -65,6 +67,9 @@ export enum ExcoPosition {
   LIBRARY_COORDINATOR = 'Library Coord',
   HEAD_USHER_MALE = 'Head Usher Male',
   HEAD_USHER_FEMALE = 'Head Usher Female',
+  COLPOTEUR_LEADER= 'Colpoteur Leader',
+  FLOOR_REP_PATIENCE = 'Floor Rep Patience',
+  HALL_REP_PURITY = 'Hall Rep Purity',
 }
 
 // Token types for JWT

@@ -91,6 +91,23 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
   
   },
   {
+    fullName: 'Bro. Elebute Josiah',
+    email: 'cm_m@auchapel.org',
+    phoneNumber: '+234 800 000 0004',
+    gender: Gender.MALE,
+    excoPosition: ExcoPosition.CHOIR_MASTER,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  },
+  {
+    fullName: 'Sis. Chukwugozie Grace',
+    email: 'cm_s@auchapel.org',
+    phoneNumber: '+234 800 000 0099',
+    gender: Gender.FEMALE,
+    excoPosition: ExcoPosition.CHOIR_MISTRESS,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  
+  },
+  {
     fullName: 'Sis. Toluwani Florence',
     email: 'fc@auchapel.org',
     phoneNumber: '+234 800 000 0008',
@@ -117,7 +134,7 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
   },
   {
     fullName: 'Sis. Petra Adediran',
-    email: 'ac@auchapel.org',
+    email: 'ad@auchapel.org',
     phoneNumber: '+234 800 000 0008',
     gender: Gender.FEMALE,
     excoPosition: ExcoPosition.ACADEMIC_DIRECTOR,
@@ -173,6 +190,33 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     phoneNumber: '+234 800 000 0308',
     gender: Gender.FEMALE,
     excoPosition: ExcoPosition.HEAD_USHER_FEMALE,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  
+  },
+  {
+    fullName: 'Sis. Adeyeri Inioluwa',
+    email: 'cl@auchapel.org',
+    phoneNumber: '+234 893 000 0008',
+    gender: Gender.FEMALE,
+    excoPosition: ExcoPosition.COLPOTEUR_LEADER,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  
+  },
+  {
+    fullName: 'Sis. Ajayi Simisola',
+    email: 'fr_p@auchapel.org',
+    phoneNumber: '+234 893 000 0008',
+    gender: Gender.FEMALE,
+    excoPosition: ExcoPosition.FLOOR_REP_PATIENCE,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  
+  },
+  {
+    fullName: 'Sis. Elizabeth Eze',
+    email: 'hp_p@auchapel.org',
+    phoneNumber: '+234 893 078 0008',
+    gender: Gender.FEMALE,
+    excoPosition: ExcoPosition.HALL_REP_PURITY,
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   
   },
