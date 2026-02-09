@@ -1,6 +1,7 @@
 import createApp from './app';
 import config from './config';
 import connectDB from './config/database';
+import { schedulerService } from './services';
 
 /**
  * Server Entry Point
@@ -23,11 +24,24 @@ const startServer = async (): Promise<void> => {
       console.log(`🔗 Server URL: http://localhost:${config.port}`);
       console.log(`📖 Health Check: http://localhost:${config.port}/api/health`);
       console.log('='.repeat(50));
+
+      // Initialize notification scheduler after server starts
+      schedulerService.initialize();
+      console.log('📅 Notification scheduler initialized');
+      console.log('   - Morning reminder: 7:00 AM');
+      console.log('   - Afternoon reminder: 1:00 PM');
+      console.log('   - Evening reminder: 9:00 PM');
+      console.log('='.repeat(50));
     });
 
     // Graceful shutdown handlers
     const gracefulShutdown = (signal: string) => {
       console.log(`\n${signal} received. Shutting down gracefully...`);
+      
+      // Stop scheduled jobs
+      schedulerService.stopAll();
+      console.log('Scheduler jobs stopped');
+      
       server.close(() => {
         console.log('HTTP server closed');
         process.exit(0);
