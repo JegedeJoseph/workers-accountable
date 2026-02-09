@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
 import config from './index';
 import { User } from '../models';
 import { UserRole } from '../types/enums';
@@ -44,14 +43,13 @@ const seedExecutives = async (): Promise<void> => {
         updated++;
       } else {
         // Create new executive user
-        const hashedPassword = await bcrypt.hash(execData.defaultPassword, 12);
-        
+        // Note: Password will be hashed by the User model pre-save middleware
         await User.create({
           fullName: execData.fullName,
           email: execData.email,
           phoneNumber: execData.phoneNumber,
           gender: execData.gender,
-          password: hashedPassword,
+          password: execData.defaultPassword,
           role: UserRole.EXECUTIVE,
           excoPosition: execData.excoPosition,
           isActive: true,
