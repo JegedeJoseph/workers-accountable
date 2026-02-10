@@ -15,10 +15,25 @@ const createApp = (): Application => {
   // Security middleware
   app.use(helmet());
 
-  // CORS configuration - optimized for Flutter Desktop
+  // CORS configuration - optimized for Flutter Desktop and Web
+  const allowedOrigins = [
+    'https://workers-accountable.vercel.app',
+    config.cors.origin,
+  ].filter(Boolean);
+
   app.use(
     cors({
-      origin: config.cors.origin,
+      origin: (origin, callback) => {
+        // Allow requests with no origin (mobile apps, Postman, etc.)
+        if (!origin) return callback(null, true);
+        
+        // Allow if origin matches or if wildcard is configured
+        if (allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
+          return callback(null, true);
+        }
+        
+        callback(new Error('Not allowed by CORS'));
+      },
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
       allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],

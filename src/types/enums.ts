@@ -39,10 +39,8 @@ export enum WorkforceDepartment {
   EVANGELISM = 'evangelism',
   COLPOTEUR = 'colpoteur',
   LIBRARY = 'library',
-  PROTOCOL = 'protocol',
   CHILDREN = 'children',
-  DRAMA = 'drama',
-  INSTRUMENTALS = 'instrumentals',
+  GPT='gpt',
 }
 
 // Executive Positions
