@@ -69,6 +69,8 @@ export enum ExcoPosition {
   COLPOTEUR_LEADER= 'Colpoteur Leader',
   FLOOR_REP_PATIENCE = 'Floor Rep Patience',
   HALL_REP_PURITY = 'Hall Rep Purity',
+  HALL_REP_PEACE = 'Hall Rep Peace',
+  GPT_LEADER ='GPT Leader',
 }
 
 // Token types for JWT

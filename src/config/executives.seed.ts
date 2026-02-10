@@ -27,8 +27,8 @@ export const DEFAULT_EXECUTIVE_PASSWORD = 'AUChapel@2026';
 export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
   {
     fullName: 'Bro Kehinde Jeremiah',
-    email: 'gc@auchapel.org',
-    phoneNumber: '+234 800 000 0001',
+    email: 'erioluwa.kehinde@student.aul.edu.ng',
+    phoneNumber: '09128790554',
     gender: Gender.MALE,
     excoPosition: ExcoPosition.GENERAL_COORDINATOR,
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
@@ -118,8 +118,8 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
   },
   {
     fullName: 'Bro. Jeph Evans',
-    email: 'mc@auchapel.org',
-    phoneNumber: '+234 856 000 0004',
+    email: 'jephunneh.evans@student.aul.edu.ng',
+    phoneNumber: '08157992380',
     gender: Gender.MALE,
     excoPosition: ExcoPosition.MAINTENANCE_COORDINATOR,
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
@@ -217,6 +217,23 @@ export const EXECUTIVES_SEED_DATA: IExecutiveSeed[] = [
     phoneNumber: '+234 893 078 0008',
     gender: Gender.FEMALE,
     excoPosition: ExcoPosition.HALL_REP_PURITY,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  
+  },
+  {
+    fullName: 'Bro. Enoch Oladele',
+    email: 'hr_p@auchapel.org',
+    phoneNumber: '+234 856 460 0004',
+    gender: Gender.MALE,
+    excoPosition: ExcoPosition.HALL_REP_PEACE,
+    defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
+  },
+  {
+    fullName: 'Sis. Patrick Goodness',
+    email: 'gpt@auchapel.org',
+    phoneNumber: '+234 893 078 0008',
+    gender: Gender.FEMALE,
+    excoPosition: ExcoPosition.GPT_LEADER,
     defaultPassword: DEFAULT_EXECUTIVE_PASSWORD,
   
   },
