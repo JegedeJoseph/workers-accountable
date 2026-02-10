@@ -1,8 +1,19 @@
 import mongoose from 'mongoose';
 import config from './index';
 import { User } from '../models';
-import { UserRole } from '../types/enums';
+import { UserRole, ExcoPosition } from '../types/enums';
 import { EXECUTIVES_SEED_DATA } from './executives.seed';
+
+/**
+ * Determine the role based on executive position
+ * GC (General Coordinator) gets SUPER_ADMIN role
+ */
+const getRoleForPosition = (position: ExcoPosition): UserRole => {
+  if (position === ExcoPosition.GENERAL_COORDINATOR) {
+    return UserRole.SUPER_ADMIN;
+  }
+  return UserRole.EXECUTIVE;
+};
 
 /**
  * Seed executives into the database
@@ -20,6 +31,9 @@ const seedExecutives = async (): Promise<void> => {
     let updated = 0;
 
     for (const execData of EXECUTIVES_SEED_DATA) {
+      // Determine role (GC gets SUPER_ADMIN)
+      const role = getRoleForPosition(execData.excoPosition);
+
       // Check if executive already exists
       const existingExec = await User.findOne({ 
         $or: [
@@ -36,10 +50,11 @@ const seedExecutives = async (): Promise<void> => {
           phoneNumber: execData.phoneNumber,
           gender: execData.gender,
           excoPosition: execData.excoPosition,
-          role: UserRole.EXECUTIVE,
+          role: role,
           isActive: true,
         });
-        console.log(`🔄 Updated ${execData.fullName} (${execData.excoPosition})`);
+        const roleLabel = role === UserRole.SUPER_ADMIN ? '👑 Super Admin' : '📋 Executive';
+        console.log(`🔄 Updated ${execData.fullName} (${execData.excoPosition}) - ${roleLabel}`);
         updated++;
       } else {
         // Create new executive user
@@ -50,12 +65,13 @@ const seedExecutives = async (): Promise<void> => {
           phoneNumber: execData.phoneNumber,
           gender: execData.gender,
           password: execData.defaultPassword,
-          role: UserRole.EXECUTIVE,
+          role: role,
           excoPosition: execData.excoPosition,
           isActive: true,
           mustChangePassword: true, // Force password change on first login
         });
-        console.log(`✅ Created ${execData.fullName} (${execData.excoPosition})`);
+        const roleLabel = role === UserRole.SUPER_ADMIN ? '👑 Super Admin' : '📋 Executive';
+        console.log(`✅ Created ${execData.fullName} (${execData.excoPosition}) - ${roleLabel}`);
         created++;
       }
     }

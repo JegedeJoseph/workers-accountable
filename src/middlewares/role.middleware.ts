@@ -46,7 +46,12 @@ export const roleCheck = (allowedRoles: UserRole[]) => {
 /**
  * Convenience middleware for executive-only routes
  */
-export const executiveOnly = roleCheck([UserRole.EXECUTIVE]);
+export const executiveOnly = roleCheck([UserRole.EXECUTIVE, UserRole.SUPER_ADMIN]);
+
+/**
+ * Convenience middleware for super admin only routes
+ */
+export const superAdminOnly = roleCheck([UserRole.SUPER_ADMIN]);
 
 /**
  * Convenience middleware for worker-only routes
@@ -56,11 +61,11 @@ export const workerOnly = roleCheck([UserRole.WORKER]);
 /**
  * Convenience middleware for any authenticated user
  */
-export const anyRole = roleCheck([UserRole.WORKER, UserRole.EXECUTIVE]);
+export const anyRole = roleCheck([UserRole.WORKER, UserRole.EXECUTIVE, UserRole.SUPER_ADMIN]);
 
 /**
- * Self or Executive Middleware
- * Allows users to access their own resources OR executives to access any resource
+ * Self or Executive/Super Admin Middleware
+ * Allows users to access their own resources OR executives/super admins to access any resource
  *
  * @param userIdParam - The request parameter name containing the target user ID
  */
@@ -77,9 +82,9 @@ export const selfOrExecutive = (userIdParam: string = 'userId') => {
 
       const targetUserId = req.params[userIdParam];
       const isOwnResource = req.user.userId === targetUserId;
-      const isExecutive = req.user.role === UserRole.EXECUTIVE;
+      const isExecutiveOrAdmin = req.user.role === UserRole.EXECUTIVE || req.user.role === UserRole.SUPER_ADMIN;
 
-      if (!isOwnResource && !isExecutive) {
+      if (!isOwnResource && !isExecutiveOrAdmin) {
         throw ApiError.forbidden(
           'Access denied. You can only access your own resources.'
         );

@@ -7,6 +7,7 @@
 export enum UserRole {
   WORKER = 'worker',
   EXECUTIVE = 'executive',
+  SUPER_ADMIN = 'super_admin',
 }
 
 // Gender options
@@ -40,7 +41,7 @@ export enum WorkforceDepartment {
   COLPOTEUR = 'colpoteur',
   LIBRARY = 'library',
   CHILDREN = 'children',
-  GPT='gpt',
+  GPT = 'gpt',
 }
 
 // Executive Positions

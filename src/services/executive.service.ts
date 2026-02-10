@@ -431,6 +431,312 @@ class ExecutiveService {
       disciplines: record.disciplines,
     }));
   }
+
+  // ============================================
+  // SUPER ADMIN METHODS (GC - View All Workers)
+  // ============================================
+
+  /**
+   * Get ALL workers in the system (Super Admin only)
+   */
+  async getAllWorkers(): Promise<IUser[]> {
+    const workers = await User.find({
+      role: UserRole.WORKER,
+      isActive: true,
+    })
+      .select('-password -refreshToken')
+      .populate('assignedExecutive', 'fullName email excoPosition');
+
+    return workers;
+  }
+
+  /**
+   * Get ALL workers count in the system
+   */
+  async getAllWorkersCount(): Promise<number> {
+    return User.countDocuments({
+      role: UserRole.WORKER,
+      isActive: true,
+    });
+  }
+
+  /**
+   * Get system-wide dashboard summary (Super Admin only)
+   */
+  async getSystemDashboardSummary(weekStartDate?: Date): Promise<IExecutiveDashboardSummary & { totalExecutives: number }> {
+    const totalWorkers = await this.getAllWorkersCount();
+    const totalExecutives = await User.countDocuments({
+      role: UserRole.EXECUTIVE,
+      isActive: true,
+    });
+
+    // Calculate week dates
+    const startDate = weekStartDate
+      ? WeeklyDiscipline.getWeekStartDate(weekStartDate)
+      : WeeklyDiscipline.getWeekStartDate();
+    const endDate = WeeklyDiscipline.getWeekEndDate(startDate);
+
+    // Get all discipline records for the week
+    const disciplineRecords = await WeeklyDiscipline.find({
+      weekStartDate: startDate,
+    });
+
+    // Calculate stats
+    const workersWithProgress = disciplineRecords.length;
+    const workersWithReflection = disciplineRecords.filter(
+      (r) => r.reflection && r.reflectionSubmittedAt
+    ).length;
+
+    // Calculate average completion rate
+    let totalCompletionRate = 0;
+    for (const record of disciplineRecords) {
+      totalCompletionRate += this.calculateCompletionRate(record.disciplines);
+    }
+    const averageCompletionRate = workersWithProgress > 0
+      ? Math.round(totalCompletionRate / workersWithProgress)
+      : 0;
+
+    return {
+      totalWorkers,
+      totalExecutives,
+      workersWithProgress,
+      workersWithReflection,
+      averageCompletionRate,
+      weekStartDate: startDate,
+      weekEndDate: endDate,
+    };
+  }
+
+  /**
+   * Get weekly discipline progress for ALL workers (Super Admin only)
+   */
+  async getAllWorkersWeeklyProgress(weekStartDate?: Date): Promise<IWorkerDisciplineSummary[]> {
+    // Get all workers
+    const workers = await this.getAllWorkers();
+
+    if (workers.length === 0) {
+      return [];
+    }
+
+    // Calculate week dates
+    const startDate = weekStartDate
+      ? WeeklyDiscipline.getWeekStartDate(weekStartDate)
+      : WeeklyDiscipline.getWeekStartDate();
+    const endDate = WeeklyDiscipline.getWeekEndDate(startDate);
+
+    // Get discipline records for all workers
+    const workerIds = workers.map((w) => w._id);
+    const disciplineRecords = await WeeklyDiscipline.find({
+      userId: { $in: workerIds },
+      weekStartDate: startDate,
+    });
+
+    // Create a map for quick lookup
+    const disciplineMap = new Map<string, IWeeklyDiscipline>();
+    for (const record of disciplineRecords) {
+      disciplineMap.set(record.userId.toString(), record);
+    }
+
+    // Build summary for each worker
+    const summaries: IWorkerDisciplineSummary[] = workers.map((worker) => {
+      const record = disciplineMap.get(worker._id.toString());
+
+      if (record) {
+        return {
+          worker: {
+            _id: worker._id.toString(),
+            fullName: worker.fullName,
+            email: worker.email,
+            hostel: worker.hostel || '',
+            workforceDepartment: worker.workforceDepartment || '',
+          },
+          weekStartDate: startDate,
+          weekEndDate: endDate,
+          tasksCompleted: this.countCompletedTasks(record.disciplines),
+          totalTasks: 28,
+          completionRate: this.calculateCompletionRate(record.disciplines),
+          reflection: record.reflection || null,
+          reflectionSubmittedAt: record.reflectionSubmittedAt || null,
+          disciplines: record.disciplines,
+        };
+      } else {
+        return {
+          worker: {
+            _id: worker._id.toString(),
+            fullName: worker.fullName,
+            email: worker.email,
+            hostel: worker.hostel || '',
+            workforceDepartment: worker.workforceDepartment || '',
+          },
+          weekStartDate: startDate,
+          weekEndDate: endDate,
+          tasksCompleted: 0,
+          totalTasks: 28,
+          completionRate: 0,
+          reflection: null,
+          reflectionSubmittedAt: null,
+          disciplines: [],
+        };
+      }
+    });
+
+    // Sort by completion rate (descending)
+    summaries.sort((a, b) => b.completionRate - a.completionRate);
+
+    return summaries;
+  }
+
+  /**
+   * Get a specific worker's discipline details (Super Admin - no assignment check)
+   */
+  async getAnyWorkerDisciplineDetails(
+    workerId: string,
+    weekStartDate?: Date
+  ): Promise<IWorkerDisciplineSummary> {
+    const worker = await User.findOne({
+      _id: new Types.ObjectId(workerId),
+      role: UserRole.WORKER,
+    }).select('-password -refreshToken');
+
+    if (!worker) {
+      throw ApiError.notFound('Worker not found');
+    }
+
+    // Calculate week dates
+    const startDate = weekStartDate
+      ? WeeklyDiscipline.getWeekStartDate(weekStartDate)
+      : WeeklyDiscipline.getWeekStartDate();
+    const endDate = WeeklyDiscipline.getWeekEndDate(startDate);
+
+    // Get discipline record
+    const record = await WeeklyDiscipline.findOne({
+      userId: new Types.ObjectId(workerId),
+      weekStartDate: startDate,
+    });
+
+    if (record) {
+      return {
+        worker: {
+          _id: worker._id.toString(),
+          fullName: worker.fullName,
+          email: worker.email,
+          hostel: worker.hostel || '',
+          workforceDepartment: worker.workforceDepartment || '',
+        },
+        weekStartDate: startDate,
+        weekEndDate: endDate,
+        tasksCompleted: this.countCompletedTasks(record.disciplines),
+        totalTasks: 28,
+        completionRate: this.calculateCompletionRate(record.disciplines),
+        reflection: record.reflection || null,
+        reflectionSubmittedAt: record.reflectionSubmittedAt || null,
+        disciplines: record.disciplines,
+      };
+    } else {
+      return {
+        worker: {
+          _id: worker._id.toString(),
+          fullName: worker.fullName,
+          email: worker.email,
+          hostel: worker.hostel || '',
+          workforceDepartment: worker.workforceDepartment || '',
+        },
+        weekStartDate: startDate,
+        weekEndDate: endDate,
+        tasksCompleted: 0,
+        totalTasks: 28,
+        completionRate: 0,
+        reflection: null,
+        reflectionSubmittedAt: null,
+        disciplines: [],
+      };
+    }
+  }
+
+  /**
+   * Get any worker's history (Super Admin - no assignment check)
+   */
+  async getAnyWorkerHistory(
+    workerId: string,
+    weeksLimit: number = 4
+  ): Promise<IWorkerDisciplineSummary[]> {
+    const worker = await User.findOne({
+      _id: new Types.ObjectId(workerId),
+      role: UserRole.WORKER,
+    }).select('-password -refreshToken');
+
+    if (!worker) {
+      throw ApiError.notFound('Worker not found');
+    }
+
+    // Get discipline records
+    const records = await WeeklyDiscipline.find({
+      userId: new Types.ObjectId(workerId),
+    })
+      .sort({ weekStartDate: -1 })
+      .limit(weeksLimit);
+
+    return records.map((record) => ({
+      worker: {
+        _id: worker._id.toString(),
+        fullName: worker.fullName,
+        email: worker.email,
+        hostel: worker.hostel || '',
+        workforceDepartment: worker.workforceDepartment || '',
+      },
+      weekStartDate: record.weekStartDate,
+      weekEndDate: record.weekEndDate,
+      tasksCompleted: this.countCompletedTasks(record.disciplines),
+      totalTasks: 28,
+      completionRate: this.calculateCompletionRate(record.disciplines),
+      reflection: record.reflection || null,
+      reflectionSubmittedAt: record.reflectionSubmittedAt || null,
+      disciplines: record.disciplines,
+    }));
+  }
+
+  /**
+   * Get all reflections from ALL workers (Super Admin only)
+   */
+  async getAllWorkersReflections(weekStartDate?: Date): Promise<Array<{
+    worker: { _id: string; fullName: string };
+    reflection: string;
+    submittedAt: Date;
+  }>> {
+    // Calculate week dates
+    const startDate = weekStartDate
+      ? WeeklyDiscipline.getWeekStartDate(weekStartDate)
+      : WeeklyDiscipline.getWeekStartDate();
+
+    // Get all discipline records with reflections
+    const records = await WeeklyDiscipline.find({
+      weekStartDate: startDate,
+      reflection: { $exists: true, $nin: [null, ''] },
+      reflectionSubmittedAt: { $exists: true, $ne: null },
+    }).populate('userId', 'fullName');
+
+    // Build results
+    const reflections = records
+      .filter((r) => r.reflection && r.reflectionSubmittedAt)
+      .map((record) => {
+        const user = record.userId as unknown as { _id: Types.ObjectId; fullName: string };
+        return {
+          worker: {
+            _id: user._id.toString(),
+            fullName: user.fullName || 'Unknown',
+          },
+          reflection: record.reflection!,
+          submittedAt: record.reflectionSubmittedAt!,
+        };
+      })
+      .sort((a, b) => {
+        const timeA = a.submittedAt?.getTime() || 0;
+        const timeB = b.submittedAt?.getTime() || 0;
+        return timeB - timeA;
+      });
+
+    return reflections;
+  }
 }
 
 // Export singleton instance

@@ -64,7 +64,7 @@ const userSchema = new Schema<IUser>(
       type: String,
       enum: {
         values: UserRoles,
-        message: 'Role must be either worker or executive',
+        message: 'Role must be worker, executive, or super_admin',
       },
       required: [true, 'Role is required'],
     },

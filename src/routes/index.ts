@@ -5,6 +5,7 @@ import enumRoutes from './enum.routes';
 import disciplineRoutes from './discipline.routes';
 import executiveRoutes from './executive.routes';
 import notificationRoutes from './notification.routes';
+import adminRoutes from './admin.routes';
 
 const router = Router();
 
@@ -31,5 +32,6 @@ router.use('/enums', enumRoutes);
 router.use('/disciplines', disciplineRoutes);
 router.use('/executive', executiveRoutes);
 router.use('/notifications', notificationRoutes);
+router.use('/admin', adminRoutes);
 
 export default router;

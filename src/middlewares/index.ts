@@ -2,6 +2,7 @@ export { authMiddleware, optionalAuthMiddleware } from './auth.middleware';
 export {
   roleCheck,
   executiveOnly,
+  superAdminOnly,
   workerOnly,
   anyRole,
   selfOrExecutive,
